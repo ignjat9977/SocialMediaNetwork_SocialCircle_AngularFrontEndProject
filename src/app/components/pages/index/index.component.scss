@@ -1,0 +1,21 @@
+.show-tab{
+    display: block !important;
+}
+.hide-tab{
+    display: none !important;
+}
+.color-white{
+    color:white !important;
+}
+@media (max-width: 1200px) {
+	
+    .menu-btn {display: block !important;}
+}
+.counter{
+    display:inline-block;
+    width:10px;
+    height:10px;
+    background-color: red;
+    color: white !important;
+    font-size: 9px;
+}

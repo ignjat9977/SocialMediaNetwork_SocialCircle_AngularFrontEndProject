@@ -1,0 +1,161 @@
+<div class="wrapper">	
+    <header>
+        <div class="container">
+            <div class="header-data">
+                <div class="logo">
+                    <a routerLink="/index/home" title=""><img src="assets/images/logo.png" alt=""></a>
+                </div><!--logo end-->
+                <div class="search-bar">
+                    <form>
+                        <input type="text" #search name="search" placeholder="Search...">
+                        <button (click)="goToSearchPage()" type="button"><i class="la la-search"></i></button>
+                    </form>
+                </div><!--search-bar end-->
+                <nav #nav>
+                    <ul>
+                        <li>
+                            <a routerLink="/index/home" title="">
+                                <span><img src="assets/images/icon1.png" alt=""></span>
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/index/settings" title="">
+                                <span><img src="../../../../assets/images/icon3.png" alt=""></span>
+                                Settings
+                            </a>
+                        </li>
+                        
+                        <li>
+                            <a routerLink="/index/my-profile" title="">
+                                <span><img src="assets/images/icon4.png" alt=""></span>
+                                Profiles
+                            </a>
+                            <ul>
+                                <li><a href="user-profile.html" title="">User Profile</a></li>
+                                <li><a routerLink="/index/my-profile" title="">My Wall</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="color-white not-box-openm" routerLink="/index/messages" (mouseover)="showMessages()" title="">
+                                <span><img src="assets/images/icon6.png" alt=""></span>
+                                Messages <ng-container *ngIf="messagesCounter != 0"><span class="counter">{{messagesCounter}}</span></ng-container>
+                            </a>
+                            <div class="notification-box msg" #messagesBox id="message">
+                                <div class="nt-title">
+                                    <h4>Setting</h4>
+                                    <a href="#" title="">Clear all</a>
+                                </div>
+                                <div class="nott-list">
+                                    <ng-container *ngIf="notificiationMessages.length>0; else noMessages">
+                                        <ng-container *ngFor="let message of notificiationMessages">
+                                            <div class="notfication-details">
+                                                <div class="noty-user-img">
+                                                    <img src="assets/images/resources/ny-img1.png" alt="">
+                                                </div>
+                                                <div class="notification-info">
+                                                    <h3><a href="messages.html" title="">{{message.user}}</a> </h3>
+                                                    <p>{{message.message}}</p>
+                                                    <span>{{message.createdAt}}</span>
+                                                </div><!--notification-info -->
+                                            </div>
+                                        </ng-container>
+                                    </ng-container>
+                                    <ng-template #noMessages>
+                                        <h6>No new Messages!</h6>
+                                    </ng-template>
+                                    
+                                      <div class="view-all-nots">
+                                          <a (click)="viewAllMessages()" title="">View All Messsages</a>
+                                      </div>
+                                </div><!--nott-list end-->
+                            </div><!--notification-box end-->
+                        </li>
+                        <li>
+                            <a (click)="showNotifications()" title="" class="not-box-open color-white">
+                                <span><img src="assets/images/icon7.png" alt=""></span>
+                                Notification <ng-container *ngIf="notificationCounter != 0"><span class="counter">{{notificationCounter}}</span></ng-container>
+                            </a>
+                            <div class="notification-box noti" #notifications id="notification">
+                                <div class="nt-title">
+                                    <h4>Setting</h4>
+                                    <a href="#" title="">Clear all</a>
+                                </div>
+                                <div class="nott-list">
+                                    <ng-container *ngIf="notificationNotification.length>0; else noNotifications">
+                                    <ng-container *ngFor="let item of notificationNotification">
+
+                                        <div class="notfication-details">
+                                            <div class="notification-info">
+                                                <h3><a href="#" title="">{{item.user}}</a> {{item.message}}</h3>
+                                                <span>{{item.createdAt}}</span>
+                                            </div><!--notification-info -->
+                                        </div>
+                                    </ng-container>
+                                      <div class="view-all-nots">
+                                          <a title="" (click)="emptyNotification()">View All Notification</a>
+                                      </div>
+                                      </ng-container>
+                                      <ng-template #noNotifications>
+                                        No Notifiacations
+                                      </ng-template>
+                                </div><!--nott-list end-->
+                            </div><!--notification-box end-->
+                        </li>
+                    </ul>
+                </nav><!--nav end-->
+                <div #menuBtn class="menu-btn" >
+                    <a class="color-white" (click)="showNav()" title=""><i class="fa fa-bars"></i></a>
+                </div><!--menu-btn end-->
+                <div class="user-account">
+                    <div class="user-info" (click)="showUserBox()">
+                        <ng-container *ngIf="userObj">
+                            <ng-container *ngIf="userObj.imagesPath[0];else noImg">
+                             <img #imgHeader src={{userObj.imagesPath[0]|imagePipe}} style="height: 35px; width: 35px;" alt="">
+                            </ng-container>
+                            <ng-template #noImg >
+                                <img #imgHeader style="height: 35px; width: 35px;" src="../../../../assets/images/no-user-image.jpg" >
+                          
+                            </ng-template>
+                         </ng-container>
+                         <ng-container *ngIf="userObj">
+                            <a class="color-white" #userName title="">{{userObj.firstName}}</a>
+                         </ng-container>
+                        
+                        <i class="la la-sort-down"></i>
+                    </div>
+                    <div class="user-account-settingss" #userBox id="users">
+                        <h3>Online Status</h3>
+                        <ul class="on-off-status">
+                            <li>
+                                <div class="fgt-sec">
+                                    <input type="radio" name="cc" id="c5">
+                                    <label for="c5">
+                                        <span></span>
+                                    </label>
+                                    <small>Online</small>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="fgt-sec">
+                                    <input type="radio" name="cc" id="c6">
+                                    <label for="c6">
+                                        <span></span>
+                                    </label>
+                                    <small>Offline</small>
+                                </div>
+                            </li>
+                        </ul>
+                        
+                        <h3 class="tc"><a (click)="logOut()" title="">Logout</a></h3>
+                    </div><!--user-account-settingss end-->
+                </div>
+            </div><!--header-data end-->
+        </div>
+    </header><!--header end-->	
+    <router-outlet></router-outlet>
+
+    
+    
+    
+</div>

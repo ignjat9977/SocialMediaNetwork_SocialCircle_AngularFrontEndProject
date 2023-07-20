@@ -1,0 +1,22 @@
+<li #liElement (click)="showMessagesFromInboxPart(liElement, chatUserId)">
+    <div class="usr-msg-details">
+        <div class="usr-ms-img">
+            <ng-container *ngIf="imageUrl;else noImg">
+                <img src={{imageUrl|imagePipe}} alt="">
+            </ng-container>
+           <ng-template #noImg>
+            <img src="../../../../assets/images/no-user-image.jpg" alt="">
+           </ng-template>
+            
+        </div>
+        <div class="usr-mg-info">
+            <h3>{{chatUserName}}</h3>
+            <p>Message Box<img src="assets/images/smley.png" alt=""></p>
+        </div><!--usr-mg-info end-->
+        <ng-container *ngIf="counter != 0">
+
+            <span #noti class="msg-notifc">{{counter}}</span>
+        </ng-container>
+       
+    </div><!--usr-msg-details end-->
+</li>

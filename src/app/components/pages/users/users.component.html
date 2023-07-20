@@ -1,0 +1,47 @@
+<ng-container *ngIf="users.items.length>0;else neIt">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngFor="let user of users.items">
+                <div class="company_profile_info">
+                    <div class="company-up-info">
+                        <img src="images/resources/pf-icon1.png" alt="">
+                        <h3>{{user.firstName}} {{user.lastName}}</h3>
+                        
+                        <ul *ngIf="!user.isAlreadyMyFriend">
+                            <li><a (click)="addFriend(user.id)" title="" class="follow">Add</a></li>
+                        </ul>
+                        <ul *ngIf="user.isAlreadyMyFriend">
+                            <li><a (click)="messageFriend(user.id)" title="" class="message-us"><i class="fa fa-envelope"></i></a></li>
+                        </ul>
+                    </div>
+                    <a routerLink="/index/user-profile/{{user.id}}/{{user.isAlreadyMyFriend}}" title="" class="view-more-pro">View Profile</a>
+                </div><!--company_profile_info end-->
+            </div>
+        </div>
+        <div class="row">
+            <ngb-pagination [collectionSize]="totalCount" (pageChange)="onPageChange($event)" [pageSize]="perPage" [(page)]="page" [maxSize]="5"
+            [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+        </div>
+    </div>
+</ng-container>
+<ng-template #neIt>
+    <ng-container *ngIf="isActive;else noItems">
+        <div class="process-comm">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #noItems>
+        <div class="container">
+            <div class="row">
+                <h3>No items for that criteria!</h3>
+            </div>
+        </div>
+        
+    </ng-template>
+</ng-template>
+

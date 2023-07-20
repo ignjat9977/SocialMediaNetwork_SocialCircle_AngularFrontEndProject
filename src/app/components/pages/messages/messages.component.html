@@ -1,0 +1,40 @@
+<section class="messages-page">
+    <div class="container">
+        <div class="messages-sec">
+            <div class="row">
+                <div class="col-lg-4 col-md-12 no-pdd">
+                    <div class="msgs-list">
+                        <div class="msg-title">
+                            <h3>Messages</h3>
+                           
+                            <input type="text" #keyword class="mt-2 form-control">
+                            <button class="btn btn-primary mt-3" (click)="search()">Search</button>
+                        </div><!--msg-title end-->
+                        <div class="messages-list">
+                            <ul>
+                                <ng-container *ngIf="usersExist;else noUsers">
+
+                                    <ng-container *ngFor="let u of users">
+                                    
+                                        <app-inbox-part [chatUserId]="u.id" [chatUserName]="u.firstName + '' + u.lastName" [imageUrl]="u.imagesPath[0]"></app-inbox-part>
+                                    
+                                    
+                                    </ng-container>
+                                </ng-container>
+                                <ng-template #noUsers>
+                                    <h3>No Users in inbox</h3>
+                                </ng-template>
+                            </ul>
+                        </div><!--messages-list end-->
+                        <ngb-pagination [collectionSize]="totalCount" (pageChange)="onPageChange($event)" [pageSize]="perPage" [(page)]="page" [maxSize]="2"
+                        [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+                    </div><!--msgs-list end-->
+                </div>
+                <div class="col-lg-8 col-md-12 pd-right-none pd-left-none">
+                    
+                    <app-inbox-messages></app-inbox-messages>
+                </div>
+            </div>
+        </div><!--messages-sec end-->
+    </div>
+</section><!--messages-page end-->

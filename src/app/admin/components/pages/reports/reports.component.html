@@ -1,0 +1,51 @@
+
+<div class="page-header">
+    <h3 class="page-title">Reprots Table</h3>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex flex-column">
+          <input type="text" #searchText placeholder="Search by keyword" class="form-control my-4">
+          <input type="number" class="form-control" #userId placeholder="User Id or ReportedUser id"/>
+          <button (click)="search()" class="btn btn-primary mt-4 mb-4" type="button">Search</button>
+        </div>
+        
+        
+        <div class="table-responsive">
+          <table class="table table-bordered mb-4">
+            <thead>
+              <tr>
+                <th> # </th>
+                <th> User Id Who Send Report </th>
+                <th> Reported User Id </th>
+                <th> Post Id</th>
+                <th> Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="reportExist; else noUsers">
+
+                    <ng-container *ngFor="let item of reports; let i = index">
+                        <tr >
+                            <td>{{i + 1}}</td>
+                            <td> {{item.userId}}</td>
+                            <td> {{item.reportedUserId}}</td>
+                            <td>{{item.postId}}</td>
+                            <td>{{item.description}}</td>
+                          </tr>
+                    </ng-container>
+                </ng-container>
+                <ng-template #noUsers>
+                    <h3>No Reports on this criteria!</h3>
+                </ng-template>
+            </tbody>
+          </table>
+          <ngb-pagination [collectionSize]="totalCount" (pageChange)="onPageChange($event)" [pageSize]="perPage"  [directionLinks]="false"></ngb-pagination>
+        </div>
+      </div>
+    </div>
+    </div>
+</div>
+

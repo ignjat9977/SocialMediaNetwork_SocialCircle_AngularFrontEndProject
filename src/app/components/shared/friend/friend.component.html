@@ -1,0 +1,53 @@
+
+    <div class="company_profile_info">
+        <div class="company-up-info">
+            <ng-container *ngIf="isYourFriend">
+                <ng-container *ngIf="friend.imagesPath[0];else noImg">
+                    <img #imgHeader src={{friend.imagesPath[0]|imagePipe}} style="height: 35px; width: 35px;" alt="">
+                   </ng-container>
+                   <ng-template #noImg >
+                       <img #imgHeader style="height: 35px; width: 35px;" src="../../../../assets/images/no-user-image.jpg" >
+                 
+                   </ng-template>
+            </ng-container>
+           
+            <h3>{{friend.firstName}} {{friend.lastName}}</h3>
+            <h4>{{friend.email}}</h4>
+            <ul>
+                <ng-container *ngIf="friend.isAlreadyMyFriend==null;else otherCondition">
+
+                    <ng-container *ngIf="!isYourFriend ">
+                    
+                        <li><a (click)="addFriend(friend.id)" title="" class="follow">Add friend</a></li>
+                        
+                        
+                    </ng-container>
+                    <ng-container *ngIf="isYourFriend">
+                        
+                        <li><a (click)="messageFriend(friend.id)" title="" class="message-us"><i class="fa fa-envelope"></i></a></li>
+                       
+                        
+                    </ng-container>
+                </ng-container>
+                <ng-template #otherCondition>
+                    <ng-container *ngIf="friend.id!=idCurrentUser">
+                        <ng-container *ngIf="!friend.isAlreadyMyFriend">
+                    
+                            <li><a (click)="addFriend(friend.id)" title="" class="follow">Add friend</a></li>
+                            
+                            
+                        </ng-container>
+                        <ng-container *ngIf="friend.isAlreadyMyFriend">
+                            
+                            <li><a (click)="messageFriend(friend.id)" title="" ><i class="fa fa-envelope"></i></a></li>
+                            
+                            
+                        </ng-container>
+                    </ng-container>
+                    
+                </ng-template>
+                
+            </ul>
+        </div>
+        <a routerLink="/index/user-profile/{{friend.id}}/{{isYourFriend}}" title="" class="view-more-pro">View Profile</a>
+    </div><!--company_profile_info end-->

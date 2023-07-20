@@ -1,0 +1,100 @@
+<div class="posty post-bar">
+    <div class="post-bar no-margin">
+        <div class="post_topbar">
+            <div class="usy-dt">
+                
+                <ng-container *ngIf="userObj.imagesPath[0];else noImg">
+                    <img style="height: 50px;width: 50px;" src="{{userObj.imagesPath[0]|imagePipe}}" alt="">
+                   </ng-container>
+                   <ng-template #noImg >
+                       <img #imgHeader style="height: 50px;width: 50px;" src="../../../../assets/images/no-user-image.jpg" >
+                 
+                   </ng-template>
+                <div class="usy-name">
+                    <h3>{{userObj.firstName}} {{userObj.lastName}}</h3>
+                    <span><img src="assets/images/clock.png" alt="">{{post.createdAt|date:'medium'}}</span>
+                </div>
+            </div>
+            <ng-container *ngIf="isYourPost">
+                <div class="ed-opts" #showPostOption>
+                    <a (click)="showPostTab()" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
+                    <ul class="ed-options" #postTabUl>
+                        <li><a (click)="editPost(post)" title="">Edit Post</a></li>
+                        <li><a  (click)="deletePost(post.id)" title="">Delete Post</a></li>
+                        <li><a (click)="hidePostTab()" title="">Close</a></li>
+                    </ul>
+                </div>
+            </ng-container>
+        </div>
+        <div class="epi-sec">
+            <ul class="descp">
+                <ng-container *ngIf="post.privacyId == 11;else private">
+                    <li><span>Public</span></li>
+                </ng-container>
+                <ng-template #private>
+                    <li><span>Private</span></li>
+                </ng-template>
+                
+               
+            </ul>
+            <ng-container *ngIf="!isYourPost">
+                <ul class="bk-links">
+                    <ng-container *ngIf="userObj">
+                        <li class="bg-red"><a class="bg-red" (click)="openModal(post.id, userObj.id)" title=""><i class="bg-red fa fa-flag"></i></a></li>
+                    </ng-container>
+                    
+                </ul>
+            </ng-container>
+        </div>
+        <div class="job_descp">
+            <h3>{{post.title}}</h3>
+            <p>{{post.content}}</p>
+            <ng-container *ngIf="post.path && post.path.length > 0">
+                <ng-container *ngIf="(post.path[0]|videoOrPhoto) == 'image'">
+                    <img src="{{post.path[0]|imagePipe}}" alt="Post Pic">
+                </ng-container>
+                <ng-container *ngIf="(post.path[0]|videoOrPhoto) == 'video'">
+                    <video class="video" controls>
+                        <source src="{{post.path[0]|imagePipe}}" type="video/mp4">
+                        Vaš preglednik ne podržava video element.
+                      </video>
+                    </ng-container>
+            </ng-container>
+        </div>
+        <div class="job-status-bar">
+            <ul class="like-com">
+                <li>
+                    <a (click)="likeAPost(post.id)"><i class="fa fa-heart"></i> Like</a>
+                    <img src="assets/images/liked-img.png" alt="">
+                    <span #likeContainer>{{post.likesCounter}}</span>
+                </li> 
+                <li><a (click)="showComments()" class="com"><i class="fas fa-comment-alt"></i> Comment({{post.commentsCounter}})</a></li>
+            </ul>
+        </div>
+        
+    </div><!--post-bar end-->
+    <ng-container *ngIf="post.comments!=[] && showComm===true" >
+
+        <div class="comment-section">
+            <div class="comment-sec">
+                <ul>
+                    <ng-container *ngFor="let c of post.comments">
+                        <app-comment [postId]="post.id" [comment]="c"></app-comment>
+                    </ng-container>
+                </ul>
+            </div><!--comment-sec end-->
+            <div >
+                <div>
+                    <form [formGroup]="postAComment" (ngSubmit)="postComment(post.id)">
+                        <input type="text" class="form-control" formControlName="commentContent" placeholder="Post a comment">
+                        <button class="btn btn-orange" type="submit">Send</button>
+                    </form>
+                </div>
+            </div><!--post-comment end-->
+            <div class="alert alert-danger sn-field" *ngIf="postAComment.get('commentContent').errors?.['required']
+             && postAComment.get('commentContent').touched">
+                Comment is required!
+            </div>
+        </div><!--comment-section end-->
+    </ng-container>
+</div><!--posty end-->

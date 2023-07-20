@@ -1,0 +1,17 @@
+
+<section class="companies-info">
+    <div class="container px-4">
+        <div class="row">
+            <a class="a-page" routerLinkActive="active" routerLink="/index/search/groups"><h6 >Search Groups</h6></a>
+            <a class="a-page" routerLinkActive="active" routerLink="/index/search/users"><h6 >Search Users</h6></a>
+            <img src="assets/images/cm-logo.png" class="img-fluid ml-auto" alt="">
+        </div><!--company-title end-->
+        <div class="row my-4">
+            <input type="text" #keyword class="form-control"/>
+            <button class="btn btn-primary mt-4" (click)="sendSearch()">Search</button>
+        </div>
+        
+        
+    </div>
+    <router-outlet></router-outlet>
+</section>

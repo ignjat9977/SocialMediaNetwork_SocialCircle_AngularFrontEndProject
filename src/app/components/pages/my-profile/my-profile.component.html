@@ -1,0 +1,346 @@
+<div class="container" *ngIf="!isImage">
+    <div class="row">
+        <div class="alert alert-danger col-12 w-100">
+            You profile file is not image!
+        </div>
+    </div>
+</div>
+
+<section class="cover-sec">
+    <img src="../../../../assets/images/bg1.jpg" alt="">
+    <div class="add-pic-box">
+        <div class="container">
+            <div class="row no-gutters">
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<main>
+    <div class="main-section">
+        <div class="container">
+            <div class="main-section-data">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="main-left-sidebar">
+                            <div class="user_profile">
+                                <div class="user-pro-img">
+                                    <ng-container *ngIf="userObj">
+                                        <ng-container *ngIf="userObj.imagesPath[0];else noImg">
+                                            <img src="{{userObj.imagesPath[0]|imagePipe}}" alt="">
+                                        </ng-container>
+                                        <ng-template 
+                                            #noImg>
+                                            <img src="../../../../assets/images/no-user-image.jpg" alt="">
+                                        </ng-template>
+                                    </ng-container>
+                                    
+                                    <div class="add-dp" id="OpenImgUpload">
+                                        <input type="file" (change)="onFileSelect($event)" id="file">
+                                        <label for="file"><i class="fa fa-camera"></i></label>												
+                                    </div>
+                                </div><!--user-pro-img end-->
+                                <div class="user_pro_status">
+                                    <ul class="flw-status">
+                                        <li>
+                                            <span>Friends</span>
+                                            <ng-container *ngIf="userObj">
+                                                <span >{{userObj.numberOfFriends}}</span>
+                                            </ng-container>
+                                        </li>
+                                    </ul>
+                                </div><!--user_pro_status end-->
+                                
+                            </div><!--user_profile end-->
+                            <div class="suggestions full-width">
+                                <div class="sd-title">
+                                    <h3>Friends</h3>
+                                    <i class="la la-ellipsis-v"></i>
+                                </div><!--sd-title end-->
+                                <div class="suggestions-list">
+                                    <div class="suggestion-usd" *ngFor="let item of friends">
+                                        <ng-container *ngIf="item.imagesPath[0];else noImg">
+                                            <img src="{{item.imagesPath[0]|imagePipe}}" style="width: 20px;height: 20px;" alt="">
+                                        </ng-container>
+                                        <ng-template 
+                                            #noImg>
+                                            <img src="../../../../assets/images/no-user-image.jpg" style="width: 20px;height: 20px;" alt="">
+                                        </ng-template>
+                                        <div class="sgt-text">
+                                            <h4>{{item.firstName}} {{item.lastName}}</h4>
+                                            <span>{{item.email}}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                </div><!--suggestions-list end-->
+                            </div><!--suggestions end-->
+                        </div><!--main-left-sidebar end-->
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="main-ws-sec">
+                            <div class="user-tab-sec rewivew">
+
+                                <h3 *ngIf="userObj">{{userObj.firstName}} {{userObj.lastName}}</h3>
+                                <div class="star-descp">
+                                    <span>My Profile</span>
+                                    
+                                </div><!--star-descp end-->
+                                    <div class="tab-feed st2 settingjb">
+                                    <ul>
+                                        <li data-tab="feed-dd" #postsBtn (click)="showMyPostsTab(postsBtn,infoBtn,friendsBtn,ppBtn)" class="active">
+                                            <a class="color-white"  title="">
+                                                <img src="assets/images/ic1.png" alt="">
+                                                <span>My Posts</span>
+                                            </a>
+                                        </li>
+                                        <li data-tab="info-dd" #infoBtn (click)="showInfoTab(postsBtn,infoBtn,friendsBtn,ppBtn)">
+                                            <a class="color-white" title="">
+                                                <img src="assets/images/ic2.png" alt="">
+                                                <span>Info</span>
+                                            </a>
+                                        </li>
+                                        <li data-tab="saved-jobs" #friendsBtn (click)="showFriendsTab(postsBtn,infoBtn,friendsBtn,ppBtn)">
+                                            <a class="color-white"  title="">
+                                                <img src="assets/images/ic4.png" alt="">
+                                                <span>Friends</span>
+                                            </a>
+                                        </li>
+                                        <li data-tab="portfolio-dd" #ppBtn (click)="showProfilePhotosTab(postsBtn,infoBtn,friendsBtn,ppBtn)">
+                                            <a class="color-white" title="">
+                                                <img src="assets/images/ic3.png" alt="">
+                                                <span>Profile Photos</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div><!-- tab-feed end-->
+                            </div><!--user-tab-sec end-->
+                            <div class="product-feed-tab" #friendsTab id="saved-jobs">
+                                <section class="companies-info">
+                                    <div class="container">
+                                        <div class="company-title">
+                                            <h3>Your Friends</h3>
+                                        </div><!--company-title end-->
+                                        <div class="companies-list">
+                                            <div class="row">
+                                                <div class=" col-lg-4 col-sm-6 col-12" *ngFor="let f of friends">
+                                                    <app-friend [isYourFriend]="true" [friend]="f"></app-friend>
+                                                </div>    
+                                            </div>
+                                        </div><!--companies-list end-->
+                                    </div>
+                                </section><!--companies-info end-->
+                                <section class="companies-info">
+                                    <div class="container">
+                                        <div class="company-title">
+                                            <h3>Suggested Friends</h3>
+                                        </div><!--company-title end-->
+                                        <div class="companies-list">
+                                            <div class="row">
+                                                <div class=" col-lg-4 col-sm-6 col-12" *ngFor="let f of suggestedFriends">
+                                                    <ng-container *ngIf="f.id != id">
+                                                        <app-friend [isYourFriend]="false" [friend]="f"></app-friend>
+                                                    </ng-container>
+                                                </div>   
+                                                      
+                                            </div>
+                                        </div><!--companies-list end-->
+                                    </div>
+                                </section><!--companies-info end-->
+                               
+                            </div>
+                            <div class="product-feed-tab current" #myPostsTab id="feed-dd">
+                                <h3>Search posts</h3>
+                                <div>
+                                    <form  [formGroup]="searchForm" (ngSubmit)="search()">
+                                        <div>
+                                            Keyword
+                                            <input type="text" class="form-control" formControlName="keyword" name="username" placeholder="Keyword">
+                                        </div>
+                                        <div>
+                                            Date from <br/>
+                                            <input type="text" class="form-control" formControlName="from" (click)="d.toggle()" class="ngb-dp ngb-datepicker" ngbDatepicker #d="ngbDatepicker"/>
+                                        </div>
+                                        <div>
+                                            Date to <br/>
+                                            <input type="text" class="form-control" formControlName="to" (click)="c.toggle()" class="ngb-dp ngb-datepicker" ngbDatepicker #c="ngbDatepicker"/>
+                                        </div>
+                                        <div>
+                                            Have comments
+                                            <select class="form-control" formControlName="hasComments" name="" id="">
+                                                <option selected value="0">All</option>
+                                                <option value="false">No Comment Posts</option>
+                                                <option value="true">With Comments Posts</option>
+                                            </select>  
+                                        </div>
+                                        <div>
+                                            Posts per Page
+                                            <select class="form-control" name="" formControlName="perPage" id="">
+                                            <option selected id="0">10</option>
+                                            <option id="1">25</option>
+                                            <option id="2">50</option>
+                                        </select>   
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-primary" type="submit" value="submit">Search</button> 
+                                        </div>
+                                        
+                                       
+                                       
+                                        
+                                                    
+                                    </form>
+                                    <div>
+                                        <ng-container *ngIf="errorForm">
+                                            <div class="alert alert-danger">
+                                                Date from cant be bigger than Date to
+                                                or you inserted invalid Date
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="posts-section">
+                                    <div *ngIf="posts != []">
+                                      <ng-container *ngFor="let p of posts">
+                                        <app-post [isYourPost]="true" [userObj]="userObj" [post]="p"></app-post>
+                                      </ng-container>
+                                      <ngb-pagination [collectionSize]="totalCount" [maxSize]="4"
+                                      [rotate]="true" (pageChange)="onPageChange($event)" [pageSize] = "perPage" [(page)]="page" [directionLinks]="false"></ngb-pagination>
+                                    </div>
+                                    <ng-container *ngIf="!showPosts">
+                                        <div class="process-comm">
+                                            <div class="spinner">
+                                                <div class="bounce1"></div>
+                                                <div class="bounce2"></div>
+                                                <div class="bounce3"></div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                  </div>
+                                  <!--posts-section end-->
+                            </div><!--product-feed-tab end-->
+                            <div class="product-feed-tab" id="portfolio-dd" #profilePhotos>
+                                <div >
+                                    <h3>Profile Photos</h3>
+                                    <div class="row">
+                                    
+
+                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6 mt-2" *ngFor="let item of photos">
+                                                        <div class="d-flex justify-content-between">
+
+                                                            <button class="btn btn-danger" (click)="deleteProfilePhoto(item.id)">Delete</button>
+                                                            <button class="btn btn-primary" (click)="setToMainProfilePhoto(item.id)">Set as Profile Photo</button>
+                                                        </div>
+                                                        <a  href="{{item.path|imagePipe}}"  
+                                                        class="gallery-item" 
+                                                        data-responsive="https://picsum.photos/640/480/?image=173"  
+                                                        data-src="https://picsum.photos/640/480/?image=173"
+                                                        alt="\sd\xc"
+                                                        data-lg-size="480-475-480, 800-791-800, 1406-1390">
+                                                        <img src="{{item.path|imagePipe}}" class="img-responsive"/>
+                                                    </a>
+                                                </div>
+                                    </div><!--gallery_pf end-->
+                                </div><!--portfolio-gallery-sec end-->
+                            </div><!--product-feed-tab end-->
+
+                            <div class="product-feed-tab" #infoTab id="info-dd">
+                                <div class="user-profile-ov">
+                                    <h3><a href="#" title="" class="overview-open">Overview</a> <a href="#" title="" class="overview-open"><i class="fa fa-pencil"></i></a></h3>
+                                    <div *ngIf="userObj">
+                                        <p>First Name: {{ userObj.firstName }}</p>
+                                        <p>Last Name: {{ userObj.lastName }}</p>
+                                        <p>Email: {{ userObj.email }}</p>
+                                        
+                                        <p>Date Of Birth: {{userObj.dateOfBirth | date}}</p>
+                                    </div>
+                                    <div class="message-btn float-left">
+                                        <a routerLink="/index/settings" title=""><i class="fa fa-cog"></i> Setting</a>
+                                    </div>
+                                </div><!--user-profile-ov end-->
+                                
+                            </div><!--product-feed-tab end-->
+                        </div><!--main-ws-sec end-->
+                    </div>
+                </div>
+            </div><!-- main-section-data end-->
+        </div> 
+    </div>
+</main>
+
+<footer>
+    <div class="footy-sec mn no-margin">
+        <div class="container">
+            <ul>
+            </ul>
+            <p><img src="assets/images/copy-icon2.png" alt="">Copyright 2019</p>
+        </div>
+    </div>
+</footer><!--footer end-->
+
+
+
+<div class="post-popup job_post" #editPost>
+    <div class="post-project">
+        <h3>Post a job</h3>
+        <div class="post-project-fields">
+            <form [formGroup]="editPostForm" enctype="multipart/form-data" (ngSubmit)="submitEdit()">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input type="text" name="title" formControlName="title" placeholder="Title">
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger sn-field" *ngIf="editPostForm.get('title').errors?.['required'] && editPostForm.get('title').touched">
+                            Title is required!
+                        </div>
+                        <div class="alert alert-danger sn-filed" *ngIf="editPostForm.get('title').hasError('minlength') && editPostForm.get('title').touched">
+                            Title cant must be long at least 3 characters!
+                        </div>
+                        <div class="alert alert-danger sn-filed" *ngIf="editPostForm.get('title').hasError('maxlength') && editPostForm.get('title').touched">
+                            Title cant be longer that 50 characters!
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="inp-field">
+                            Privacy
+                            <select placeholder="Privacy" formControlName="privacy">
+                                <option value="private">Private</option>
+                                <option value="public">Public</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger sn-field" *ngIf="editPostForm.get('privacy')?.errors?.['required'] && editPostForm.get('privacy')?.touched">
+                            Privacy is required
+                          </div> 
+                    </div>
+                    <div class="col-lg-12">
+                        <textarea name="description" formControlName="content" placeholder="Content"></textarea>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger sn-field" *ngIf="editPostForm.get('content').errors?.['required'] && editPostForm.get('content').touched">
+                          Content is required!
+                        </div>
+                        <div class="alert alert-danger sn-field" *ngIf="editPostForm.get('content').hasError('minlength') && editPostForm.get('content').touched">
+                          Content must be at least 10 characters long!
+                        </div>
+                        <div class="alert alert-danger sn-field" *ngIf="editPostForm.get('content').hasError('maxlength') && editPostForm.get('content').touched">
+                          Content cannot be longer than 1000 characters!
+                        </div>
+                      </div>
+                      
+                    <div class="col-lg-12">
+                        <ul>
+                            <li><button class="active" type="submit" value="post">Edit</button></li>
+                            <li><a (click)="cancleEditPost()" title="">Cancel</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div><!--post-project-fields end-->
+        <a href="#" title=""><i class="la la-times-circle-o"></i></a>
+    </div><!--post-project end-->
+</div><!--post-project-popup end-->
+

@@ -1,0 +1,194 @@
+<section class="cover-sec">
+    <img src="../../../../assets/images/bg1.jpg" alt="">
+</section>
+
+
+<main>
+    <div class="main-section">
+        <div class="container">
+            <div class="main-section-data">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="main-left-sidebar">
+                            <div class="user_profile">
+                                <div class="user-pro-img">
+                                    <ng-container *ngIf="userObj">
+                                        <ng-container *ngIf="userObj.imagesPath[0];else noImg">
+                                            <img src="{{userObj.imagesPath[0]|imagePipe}}" alt="">
+                                        </ng-container>
+                                        <ng-template 
+                                            #noImg>
+                                            <img src="../../../../assets/images/no-user-image.jpg" alt="">
+                                        </ng-template>
+                                    </ng-container>
+                                    
+                                </div><!--user-pro-img end-->
+                                <div class="user_pro_status">
+                                    <ul class="flw-hr">
+                                        <ng-container *ngIf="userObj">
+                                            <ng-container *ngIf="isYourFriend==='false'">
+                                                <li><a (click)="addFriend(userObj.id)" title="" class="flww"><i class="la la-plus"></i> Add friend</a></li>
+                                            </ng-container>
+                                            <ng-container *ngIf="isYourFriend==='true'">
+                                                <li><a (click)="messageFriend(userObj.id)" title="" class="hre"><i class="fa fa-envelope"></i>Message</a></li>
+                                                <li><a (click)="removeFriend(userObj.id)" title="" class="message-us btn btn-danger mt-2"><i class="fa fa-times"></i>Remove Friend</a></li>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ul>
+                                    <ul class="flw-status">
+                                        <li>
+                                            <span>Friends</span>
+                                            <ng-container *ngIf="userObj">
+                                                <b>{{userObj.numberOfFriends}}</b>
+                                            </ng-container>
+                                            
+                                        </li>
+                                        
+                                    </ul>
+                                </div>
+                            </div><!--user_profile end-->
+                        </div><!--main-left-sidebar end-->
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="main-ws-sec">
+                            <div class="user-tab-sec">
+                                <ng-container *ngIf="userObj">
+                                    <h3>{{userObj.firstName}} {{userObj.lastName}}</h3>
+                                </ng-container>
+                                
+                                <div class="star-descp">
+                                    <span>Profile Page</span>
+                                    
+                                </div><!--star-descp end-->
+                                <div class="tab-feed">
+                                    <div class="tab-feed st2 settingjb">
+                                        <ul>
+                                            <li data-tab="feed-dd" #postsBtn (click)="showMyPostsTab(postsBtn,infoBtn,friendsBtn)" class="active">
+                                                <a class="color-white"  title="">
+                                                    <img src="assets/images/ic1.png" alt="">
+                                                    <span>My Posts</span>
+                                                </a>
+                                            </li>
+                                            <li data-tab="info-dd" #infoBtn (click)="showInfoTab(postsBtn,infoBtn,friendsBtn)">
+                                                <a class="color-white" title="">
+                                                    <img src="assets/images/ic2.png" alt="">
+                                                    <span>Info</span>
+                                                </a>
+                                            </li>
+                                            <li data-tab="saved-jobs" #friendsBtn (click)="showFriendsTab(postsBtn,infoBtn,friendsBtn)">
+                                                <a class="color-white"  title="">
+                                                    <img src="assets/images/ic4.png" alt="">
+                                                    <span>Friends</span>
+                                                </a>
+                                            </li>
+                                            
+                                        </ul>
+                                </div><!-- tab-feed end-->
+                            </div><!--user-tab-sec end-->
+                            <div class="product-feed-tab current" #myPostsTab id="feed-dd">
+                                <h3>Search posts</h3>
+                                <div>
+                                    <form  [formGroup]="searchForm" (ngSubmit)="search()">
+                                        <div>
+                                            Keyword
+                                            <input type="text" class="form-control" formControlName="keyword" name="username" placeholder="Keyword">
+                                        </div>
+                                        <div>
+                                            Date from <br/>
+                                            <input type="text" class="form-control" formControlName="from" (click)="d.toggle()" class="ngb-dp ngb-datepicker" ngbDatepicker #d="ngbDatepicker"/>
+                                        </div>
+                                        <div>
+                                            Date to <br/>
+                                            <input type="text" class="form-control" formControlName="to" (click)="c.toggle()" class="ngb-dp ngb-datepicker" ngbDatepicker #c="ngbDatepicker"/>
+                                        </div>
+                                        <div>
+                                            Have comments
+                                            <select class="form-control" formControlName="hasComments" name="" id="">
+                                                <option selected value="0">All</option>
+                                                <option value="false">No Comment Posts</option>
+                                                <option value="true">With Comments Posts</option>
+                                            </select>  
+                                        </div>
+                                        <div>
+                                            Posts per Page
+                                            <select class="form-control" name="" formControlName="perPage" id="">
+                                            <option selected id="0">10</option>
+                                            <option id="1">25</option>
+                                            <option id="2">50</option>
+                                        </select>   
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-primary" type="submit" value="submit">Search</button> 
+                                        </div>
+                                        
+                                       
+                                       
+                                        
+                                                    
+                                    </form>
+                                    <div>
+                                        <ng-container *ngIf="errorForm">
+                                            <div class="alert alert-danger">
+                                                Date from cant be bigger than Date to
+                                                or you inserted invalid Date
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="posts-section">
+                                    <div *ngIf="posts != []">
+                                        <ng-container *ngFor="let p of posts">
+                                            <app-post [isYourPost]="false" [userObj]="userObj" [post]="p"></app-post>
+                                        </ng-container>
+                                        
+                                    </div>
+                                   
+                                        <ngb-pagination [collectionSize]="totalCount" (pageChange)="onPageChange($event)" [pageSize] = "perPage" [(page)]="page" [directionLinks]="false"></ngb-pagination>
+
+                                    <ng-container *ngIf="!showPosts">
+                                        <div class="process-comm">
+                                            <div class="spinner">
+                                                <div class="bounce1"></div>
+                                                <div class="bounce2"></div>
+                                                <div class="bounce3"></div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div><!--posts-section end-->
+                            </div><!--product-feed-tab end-->
+                            <div class="product-feed-tab" #infoTab id="info-dd">
+                                <div class="user-profile-ov">
+                                    <h3><a href="#" title="" class="overview-open">Overview</a> <a href="#" title="" class="overview-open"><i class="fa fa-pencil"></i></a></h3>
+                                    <div *ngIf="userObj">
+                                        <p>First Name: {{ userObj.firstName }}</p>
+                                        <p>Last Name: {{ userObj.lastName }}</p>
+                                        <p>Email: {{ userObj.email }}</p>
+                                        
+                                        <p>Date Of Birth: {{userObj.dateOfBirth | date}}</p>
+                                    </div>
+                                </div>
+                            </div><!--product-feed-tab end-->
+                            <div class="product-feed-tab" #friendsTab id="portfolio-dd">
+                                <section class="companies-info">
+                                    <div class="container">
+                                        <div class="company-title">
+                                            <h3>Friends</h3>
+                                        </div><!--company-title end-->
+                                        <div class="companies-list">
+                                            <div class="row">
+                                                <div class=" col-lg-4 col-sm-6 col-12" *ngFor="let f of friends">
+                                                    <app-friend [isYourFriend]="true" [friend]="f"></app-friend>
+                                                </div>    
+                                            </div>
+                                        </div><!--companies-list end-->
+                                    </div>
+                                </section><!--companies-info end-->
+                            </div><!--product-feed-tab end-->
+                        </div><!--main-ws-sec end-->
+                    </div>
+                </div>
+            </div><!-- main-section-data end-->
+        </div> 
+    </div>
+</div>
+</main>

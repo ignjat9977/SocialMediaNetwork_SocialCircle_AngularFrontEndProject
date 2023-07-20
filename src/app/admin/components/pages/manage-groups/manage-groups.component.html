@@ -1,0 +1,50 @@
+
+<div class="page-header">
+    <h3 class="page-title">Groups Table</h3>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <ng-container *ngIf="groupCantBeDeleted">
+          <div class="alert alert-danger">
+
+            {{whyCantBeDeleted}}
+          </div>
+        </ng-container>
+        <input type="text" #searchText placeholder="Search by keyword" class="form-control my-4">
+        <button (click)="search()" class="btn btn-primary mb-4" type="button">Search</button>
+        
+        <div class="table-responsive">
+          <table class="table table-bordered mb-4">
+            <thead>
+              <tr>
+                <th> # </th>
+                <th> Group Name </th>
+                <th> Description </th>
+                <th> Delete Group</th>
+              </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="groupsExist; else noUsers">
+
+                    <ng-container *ngFor="let item of groups; let i = index">
+                        <tr >
+                            <td>{{i + 1}}</td>
+                            <td> {{item.name}}</td>
+                            <td> {{item.description}}</td>
+                            <td> <button (click)="deleteGroup(item.id)" class="btn btn-danger">Deactivate</button></td>
+                          </tr>
+                    </ng-container>
+                </ng-container>
+                <ng-template #noUsers>
+                    <h3>No Users on this criteria!</h3>
+                </ng-template>
+            </tbody>
+          </table>
+          <ngb-pagination [collectionSize]="totalCount" (pageChange)="onPageChange($event)" [pageSize]="perPage" [(page)]="page" [directionLinks]="false"></ngb-pagination>
+        </div>
+      </div>
+    </div>
+    </div>
+</div>

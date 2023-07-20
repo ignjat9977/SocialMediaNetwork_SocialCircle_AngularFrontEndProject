@@ -1,0 +1,291 @@
+<main>
+    <div class="main-section">
+        <div class="container">
+            <div class="main-section-data">
+                <div class="row">
+                    <div class="col-12">
+                        <ng-container *ngIf="areUserGroupMember; else noMember">
+                            <div class="post-topbar">
+                                <div class="user-picy">
+                                    <div class="filter-heading">
+                                        <h3>{{group.name}}</h3>
+                                    </div>
+                                </div>
+                                <div class="post-st">
+                                    <ul>
+                                        <li><a class="post_project" (click)="popUpPost()" title="">Post a Text</a></li>
+                                        
+                                        <li><a class="post-jb active" (click)="pupUpFile()" title="">Post a Video or Photo</a></li>
+                                        <li><a class="btn btn-danger" (click)="exitGroup()" title="">Exit Group</a></li>
+                                    </ul>
+                                </div><!--post-st end-->
+                            </div><!--post-topbar end-->
+                        </ng-container>
+                        <ng-template #noMember>
+                            <div class="post-topbar">
+                                <div class="user-picy">
+                                    <div class="filter-heading">
+                                        <h3>{{group.name}}</h3>
+                                    </div>
+                                </div>
+                                <div class="post-st">
+                                    <ul>
+                                        <li><a class="btn btn-success" (click)="becomeAMemberOfGroup()" title="">Become a member</a></li>
+                                    </ul>
+                                </div><!--post-st end-->
+                            </div><!--post-topbar end-->
+                        </ng-template>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="filter-secs">
+                            <div>
+                                <ng-container *ngIf="errorForm">
+                                    <div class="alert alert-danger">
+                                        Date from cant be bigger than Date to
+                                        or you inserted invalid Date
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <!-- <div class="filter-heading">
+                                <h3>{{group.name}}</h3>
+                            </div> -->
+                            <div class="paddy">
+                                <h6>Description</h6>
+                                <p>{{group.description}}</p>
+                            </div>
+                            <div class="paddy">
+                                <h6>Number Of Members</h6>
+                                <p>{{numberOfGroupMembers}}</p>
+                            </div>
+                            <div class="paddy">
+                                <h6>Created</h6>
+                                <p>{{group.createdAt|date}}</p>
+                                <form action="" [formGroup]="searchForm" (ngSubmit)="search()">
+
+                                    <div class="filter-dd">
+                                        <div class="filter-ttl">
+                                            <h3>Keyword</h3>
+                                        </div>
+                                        <form>
+                                            <input type="text" name="search-skills" formControlName="keyword" placeholder="Keyword">
+                                        </form>
+                                    </div>
+                                    <div class="filter-dd">
+                                        <div class="filter-ttl">
+                                            <h3>Date From</h3>
+                                        </div>
+                                        <form>
+                                            <input type="text" class="form-control" formControlName="from" (click)="d.toggle()" class="ngb-dp ngb-datepicker" ngbDatepicker #d="ngbDatepicker"/>
+                                        </form>
+                                    </div>
+                                    <div class="filter-dd">
+                                        <div class="filter-ttl">
+                                            <h3>Date To</h3>
+                                        </div>
+                                        <form>
+                                            <input type="text" class="form-control" formControlName="from" (click)="f.toggle()" class="ngb-dp ngb-datepicker" ngbDatepicker #f="ngbDatepicker"/>
+                                        </form>
+                                    </div>
+                                    <div class="filter-dd">
+                                        <div class="filter-ttl">
+                                            <h3>Has Comments</h3>
+                                        </div>
+                                        <form class="job-tp">
+                                            <select class="form-control"name="" formControlName="hasComments" id="">
+                                                <!-- "  -->
+                                                <option selected value="0">All</option>
+                                                <option value="false">No Comment Posts</option>
+                                                <option value="true">With Comments Posts</option>
+                                            </select>  
+                                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                        </form>
+                                    </div>
+                                    <div class="filter-dd">
+                                        <div class="filter-ttl">
+                                            <h3>Post per page</h3>
+                                        </div>
+                                        <form class="job-tp">
+                                            <select class="form-control" formControlName="perPage" name=""  id="">
+                                                <!--  -->
+                                                <option selected id="0">10</option>
+                                                <option id="1">25</option>
+                                                <option id="2">50</option>
+                                            </select>   
+                                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                        </form>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </form>
+                            </div>
+                        </div><!--filter-secs end-->
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="main-ws-sec">
+                            <div class="posts-section">
+                                <div *ngIf="posts != []">
+                                    <ng-container *ngFor="let p of posts">
+                                      <app-post [isYourPost]="false" [userObj]="p.name" [post]="p"></app-post>
+                                    </ng-container>
+                                    <ngb-pagination [collectionSize]="totalCount" (pageChange)="onPageChange($event)" [pageSize]="perPage" [(page)]="page" [maxSize]="5"
+          [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+                                  </div>
+                                  <ng-container *ngIf="!showPosts">
+                                      <div class="process-comm">
+                                          <div class="spinner">
+                                              <div class="bounce1"></div>
+                                              <div class="bounce2"></div>
+                                              <div class="bounce3"></div>
+                                          </div>
+                                      </div>
+                                  </ng-container>
+                                  <ng-container *ngIf="posts.length == 0">
+                                    <h5>No Posts!</h5>
+                                  </ng-container>
+                            </div><!--posts-section end-->
+                        </div><!--main-ws-sec end-->
+                    </div>
+                </div>
+            </div><!-- main-section-data end-->
+        </div> 
+    </div>
+    
+<div class="post-popup pst-pj" #post>
+    <div class="post-project">
+        <h3>Post a project</h3>
+        <div class="post-project-fields">
+            <form [formGroup]="postTextForm" (ngSubmit)="submitPostText()">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input type="text" name="title" formControlName="title" placeholder="Title">
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger sn-field" *ngIf="postTextForm.get('title').errors?.['required'] && postTextForm.get('title').touched">
+                            Title is required!
+                        </div>
+                        <div class="alert alert-danger sn-filed" *ngIf="postTextForm.get('title').hasError('minlength') && postTextForm.get('title').touched">
+                            Title cant must be long at least 3 characters!
+                        </div>
+                        <div class="alert alert-danger sn-filed" *ngIf="postTextForm.get('title').hasError('maxlength') && postTextForm.get('title').touched">
+                            Title cant be longer that 50 characters!
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-12">
+                        <div class="inp-field">
+                            Privacy
+                            <select formControlName="privacy">
+                                <option value="private">Private</option>
+                                <option value="public">Public</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger sn-field" *ngIf="postTextForm.get('privacy')?.errors?.['required'] && postTextForm.get('privacy')?.touched">
+                            Privacy is required
+                          </div> 
+                    </div>
+                    <div class="col-lg-12">
+                        <textarea name="description" formControlName="content" placeholder="Content"></textarea>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger sn-field" *ngIf="postTextForm.get('content').errors?.['required'] && postTextForm.get('content').touched">
+                          Content is required!
+                        </div>
+                        <div class="alert alert-danger sn-field" *ngIf="postTextForm.get('content').hasError('minlength') && postTextForm.get('content').touched">
+                          Content must be at least 10 characters long!
+                        </div>
+                        <div class="alert alert-danger sn-field" *ngIf="postTextForm.get('content').hasError('maxlength') && postTextForm.get('content').touched">
+                          Content cannot be longer than 1000 characters!
+                        </div>
+                      </div>
+                      
+                    <div class="col-lg-12">
+                        <ul>
+                            <li><button class="active" type="submit" value="post">Post</button></li>
+                            <li><a (click)="postCancle()" title="">Cancel</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div><!--post-project-fields end-->
+        <a href="#" title=""><i class="la la-times-circle-o"></i></a>
+    </div><!--post-project end-->
+</div>
+<div class="post-popup job_post" #imagePost>
+    <div class="post-project">
+        <h3>Post a job</h3>
+        <div class="post-project-fields">
+            <form [formGroup]="postImageOrVideo" enctype="multipart/form-data" (ngSubmit)="submitImageOrVideoText()">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input type="text" name="title" formControlName="title" placeholder="Title">
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger sn-field" *ngIf="postImageOrVideo.get('title').errors?.['required'] && postImageOrVideo.get('title').touched">
+                            Title is required!
+                        </div>
+                        <div class="alert alert-danger sn-filed" *ngIf="postImageOrVideo.get('title').hasError('minlength') && postImageOrVideo.get('title').touched">
+                            Title cant must be long at least 3 characters!
+                        </div>
+                        <div class="alert alert-danger sn-filed" *ngIf="postImageOrVideo.get('title').hasError('maxlength') && postImageOrVideo.get('title').touched">
+                            Title cant be longer that 50 characters!
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger sn-field" *ngIf="postImageOrVideo.get('whichOne')?.errors?.['required'] && postImageOrVideo.get('whichOne')?.touched">
+                            Privacy is required
+                          </div> 
+                    </div>
+                    <div class="col-lg-12 col-sm-12">					
+                        <input formControlName="imageOrVideo" (change)="onFileSelect($event)" type="file" id="file">			
+                    </div>
+                    <div class="col-lg-12 col-sm-12">					
+                        <div class="alert alert-danger sn-field" *ngIf="postImageOrVideo.get('imageOrVideo').errors?.['required'] && postImageOrVideo.get('imageOrVideo').touched">
+                            Video or Image is required!
+                          </div>
+                          <div class="alert alert-danger sn-filed" *ngIf="postImageOrVideo.get('imageOrVideo').errors?.['pattern'] && postImageOrVideo.get('imageOrVideo').touched">
+                           Video or image must be in proper format!
+                          </div>	
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="inp-field">
+                            Privacy
+                            <select placeholder="Privacy" formControlName="privacy">
+                                <option value="private">Private</option>
+                                <option value="public">Public</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger sn-field" *ngIf="postImageOrVideo.get('privacy')?.errors?.['required'] && postImageOrVideo.get('privacy')?.touched">
+                            Privacy is required
+                          </div> 
+                    </div>
+                    <div class="col-lg-12">
+                        <textarea name="description" formControlName="content" placeholder="Content"></textarea>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger sn-field" *ngIf="postImageOrVideo.get('content').errors?.['required'] && postImageOrVideo.get('content').touched">
+                          Content is required!
+                        </div>
+                        <div class="alert alert-danger sn-field" *ngIf="postImageOrVideo.get('content').hasError('minlength') && postImageOrVideo.get('content').touched">
+                          Content must be at least 10 characters long!
+                        </div>
+                        <div class="alert alert-danger sn-field" *ngIf="postImageOrVideo.get('content').hasError('maxlength') && postImageOrVideo.get('content').touched">
+                          Content cannot be longer than 1000 characters!
+                        </div>
+                      </div>
+                      
+                    <div class="col-lg-12">
+                        <ul>
+                            <li><button class="active" type="submit" value="post">Post</button></li>
+                            <li><a (click)="imageCancle()" title="">Cancel</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div><!--post-project-fields end-->
+        <a href="#" title=""><i class="la la-times-circle-o"></i></a>
+    </div><!--post-project end-->
+</div><!--post-project-popup end-->		
+</main>

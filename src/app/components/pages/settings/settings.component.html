@@ -1,0 +1,196 @@
+<section class="profile-account-setting">
+    <div class="container">
+        <div class="account-tabs-setting">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="acc-leftbar">
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-acc-tab" data-toggle="tab" href="#nav-acc" role="tab" aria-controls="nav-acc" aria-selected="true"><i class="la la-cogs"></i>Account Setting</a>
+                            <a class="nav-item nav-link" id="nav-notification-tab" data-toggle="tab" href="#nav-notification" role="tab" aria-controls="nav-notification" aria-selected="false"><i class="fa fa-flash"></i>Notifications</a>
+                            <a class="nav-item nav-link" id="nav-privcy-tab" data-toggle="tab" href="#privcy" role="tab" aria-controls="privacy" aria-selected="false"><i class="fa fa-group"></i>Groups</a>
+                            <a class="nav-item nav-link" id="nav-deactivate-tab" data-toggle="tab" href="#nav-deactivate" role="tab" aria-controls="nav-deactivate" aria-selected="false"><i class="fa fa-random"></i>Deactivate Account</a>
+                          </div>
+                    </div><!--acc-leftbar end-->
+                </div>
+                <div class="col-lg-9">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-acc" role="tabpanel" aria-labelledby="nav-acc-tab">
+                            <div class="acc-setting">
+                                <h3>Account Setting</h3>
+                                <form [formGroup]="infoForm" (ngSubmit)="submitInfo()" class="p-5">
+                                    <div class="row">
+                                        <div class="col-lg-12 no-pdd">
+                                            <div class="sn-field">
+                                                <input type="text" name="name" class="form-control" formControlName="firstName" placeholder="First Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 no-pdd">
+                                            
+                                            <div class="alert alert-danger sn-field" *ngIf="infoForm.get('firstName').errors?.['required'] && infoForm.get('firstName').touched">
+                                                FirstName is required!
+                                            </div>
+                                            <div class="alert alert-danger sn-filed" *ngIf="infoForm.get('firstName').hasError('minlength') && infoForm.get('firstName').touched">
+                                                FirstName cant must be long at least 3 characters!
+                                            </div>
+                                            <div class="alert alert-danger sn-filed" *ngIf="infoForm.get('firstName').hasError('maxlength') && infoForm.get('firstName').touched">
+                                                FirstName cant be longer that 20 characters!
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 no-pdd">
+                                            <div class="sn-field">
+                                                <input type="text" name="name" class="form-control" formControlName="lastName" placeholder="Last Name">
+                                            
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 no-pdd">
+                                            
+                                            <div class="alert alert-danger sn-field" *ngIf="infoForm.get('lastName').errors?.['required'] && infoForm.get('lastName').touched">
+                                                LastName is required!
+                                            </div>
+                                            <div class="alert alert-danger sn-filed" *ngIf="infoForm.get('lastName').hasError('minlength') && infoForm.get('lastName').touched">
+                                                LastName cant must be long at least 3 characters!
+                                            </div>
+                                            <div class="alert alert-danger sn-filed" *ngIf="infoForm.get('lastName').hasError('maxlength') && infoForm.get('lastName').touched">
+                                                LastName cant be longer that 20 characters!
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 no-pdd">
+                                            <div class="sn-field">
+                                                <input type="text" name="name" class="form-control" formControlName="email" placeholder="Email">
+                                                
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-lg-12 no-pdd">
+                                            <div class="alert alert-danger sn-field" *ngIf="infoForm.get('email').errors?.['required'] && infoForm.get('email').touched">
+                                              Email is required!
+                                            </div>
+                                            <div class="alert alert-danger sn-filed" *ngIf="infoForm.get('email').errors?.['email'] && infoForm.get('email').touched">
+                                              Email is not in right format!
+                                            </div>
+                                          </div>
+                                          <div class="div pl-3">
+                                            Select new Password
+                                          </div>
+                                        <div class="col-lg-12 no-pdd">
+                                            <div class="sn-field">
+                                                <input type="password" name="password" class="form-control" formControlName="password" placeholder="Password">
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 no-pdd">
+                                            <div class="alert alert-danger sn-field" *ngIf="infoForm.get('password').errors?.['required'] && infoForm.get('password').touched">
+                                              Password is required!
+                                            </div>
+                                            <div class="alert alert-danger sn-filed" *ngIf="infoForm.get('password').errors?.['pattern'] && infoForm.get('password').touched">
+                                              Password is not in right format!
+                                              You need to have one small, one big letter, number, and special character at least 8 character long!
+                                            </div>
+                                          </div>
+                                          
+                                        <div class="col-lg-12 no-pdd">
+                                            <button type="submit" class="btn btn-primary" value="submit">Update your info data</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div><!--acc-setting end-->
+                        </div>
+                          
+						<div class="tab-pane fade" id="nav-notification" role="tabpanel" aria-labelledby="nav-notification-tab">
+                            <div class="acc-setting">
+                                <h3>Notifications</h3>
+                                <div class="notifications-list">
+                                    <div class="notfication-details d-flex" *ngFor="let item of notifications">
+                                        <div class="noty-user-img">
+                                            <img src={{item.whoMadeNotification.imagesPath[0]}} alt="">
+                                        </div>
+                                        <div class="notification-info">
+                                            <h3>
+                                                <a href="#" title="">
+                                                    {{item.whoMadeNotification.firstName}} {{item.whoMadeNotification.lastName}}
+                                                </a> 
+                                                {{item.description}}
+                                            </h3>
+                                            <span>{{item.created|date:'medium'}}</span>
+                                        </div><!--notification-info -->
+                                        <div class="ml-auto">
+                                            <button class="btn btn-danger" (click)="deleteNotification(item.id)">Delete</button>
+                                        </div>
+                                    </div>
+                                    <div class="ml-3">
+                                        <ngb-pagination [collectionSize]="totalCount" [maxSize]="5"
+                                    [rotate]="true" (pageChange)="onPageChange($event)" [pageSize]="perPage" [(page)]="page" [directionLinks]="false"></ngb-pagination>
+                                    </div>
+                                    
+                                </div><!--notifications-list end-->
+                            </div><!--acc-setting end-->
+                        </div>
+                        <div class="tab-pane fade" id="nav-deactivate" role="tabpanel" aria-labelledby="nav-deactivate-tab">
+                            <div class="acc-setting">
+                                <h3>Deactivate Account</h3>
+                                <p class="ml-3"><button class="btn btn-danger" (click)="deactivateAcc()">Deactivate Account</button></p>
+                            </div><!--acc-setting end-->
+                        </div>
+                        <div class="tab-pane fade" id="privcy" role="tabpanel" aria-labelledby="nav-privcy-tab">
+                            <div class="acc-setting">
+                                <h3>Make a group</h3>
+                                <div class="requests-list">
+                                    <form [formGroup]="groupForm" class="p-5" (ngSubmit)="submitGroup()">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <input type="text" name="title" class="form-control" formControlName="title" placeholder="Name">
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="alert alert-danger sn-field" *ngIf="groupForm.get('title').errors?.['required'] && groupForm.get('title').touched">
+                                                    Name is required!
+                                                </div>
+                                                <div class="alert alert-danger sn-filed" *ngIf="groupForm.get('title').hasError('minlength') && groupForm.get('title').touched">
+                                                    Name cant must be long at least 3 characters!
+                                                </div>
+                                                <div class="alert alert-danger sn-filed" *ngIf="groupForm.get('title').hasError('maxlength') && groupForm.get('title').touched">
+                                                    Name cant be longer that 50 characters!
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-lg-12 mt-3">
+                                                <div class="inp-field">
+                                                    Privacy
+                                                    <select class="form-control" formControlName="privacy">
+                                                        <option value="private">Private</option>
+                                                        <option value="public">Public</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="alert alert-danger sn-field" *ngIf="groupForm.get('privacy')?.errors?.['required'] && groupForm.get('privacy')?.touched">
+                                                    Privacy is required
+                                                  </div> 
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <textarea name="description" class="form-control mt-3" formControlName="content" placeholder="Description"></textarea>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="alert alert-danger sn-field" *ngIf="groupForm.get('content').errors?.['required'] && groupForm.get('content').touched">
+                                                  Content is required!
+                                                </div>
+                                                <div class="alert alert-danger sn-field" *ngIf="groupForm.get('content').hasError('minlength') && groupForm.get('content').touched">
+                                                  Content must be at least 10 characters long!
+                                                </div>
+                                                <div class="alert alert-danger sn-field" *ngIf="groupForm.get('content').hasError('maxlength') && groupForm.get('content').touched">
+                                                  Content cannot be longer than 1000 characters!
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 mt-3">
+                                                <button class="btn btn-primary" type="submit">Make a Group</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div><!--requests-list end-->
+                            </div><!--acc-setting end-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--account-tabs-setting end-->
+    </div>
+</section>

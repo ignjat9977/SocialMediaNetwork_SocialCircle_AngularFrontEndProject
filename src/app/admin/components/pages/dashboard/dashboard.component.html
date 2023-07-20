@@ -1,0 +1,61 @@
+
+<div class="page-header">
+  <h3 class="page-title">Users Use Cases</h3>
+</div>
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <ng-container *ngIf="errorForm">
+
+            <div class="alert alert-danger">
+                Date From Cant be After Date to
+            </div>
+        </ng-container>
+      <div class="card-body">
+        <form action="" [formGroup]="searchForm" (ngSubmit)="search()" class="d-flex flex-column" >
+            Keyword
+            <input type="text" formControlName="keyword" placeholder="Search by keyword" class="form-control my-4">
+            Date From
+            <input type="text" class="mb-4" formControlName="from" (click)="from.toggle()" class="un-set" ngbDatepicker #from="ngbDatepicker"/>
+            Date To
+            <input type="text" class="mb-4" formControlName="to"(click)="to.toggle()" class="un-set" ngbDatepicker #to="ngbDatepicker"/>
+            <button class="btn btn-primary my-4" type="submit">Search</button>
+        </form>
+        
+        
+        <div class="table-responsive">
+          <table class="table table-bordered mb-4">
+            <thead>
+              <tr>
+                <th> # </th>
+                <th> Actor </th>
+                <th> Data </th>
+                <th> Date </th>
+                <th> UseCaseName </th>
+              </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="logsExist; else noLogs">
+
+                    <ng-container *ngFor="let item of logs; let i = index">
+                        <tr >
+                            <td>{{i + 1}}</td>
+                            <td>{{item.actor}}</td>
+                            <td>{{item.data}}</td>
+                            <td>{{item.date}}</td>
+                            <td>{{item.useCaseName}}</td>
+                          </tr>
+                    </ng-container>
+                </ng-container>
+                <ng-template #noLogs>
+                    <h3>No Logs on this criteria!</h3>
+                </ng-template>
+            </tbody>
+          </table>
+          <ngb-pagination [collectionSize]="totalCount" (pageChange)="onPageChange($event)" [pageSize]="perPage" [(page)]="page" [maxSize]="5"
+          [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+        </div>
+      </div>
+    </div>
+    </div>
+</div>

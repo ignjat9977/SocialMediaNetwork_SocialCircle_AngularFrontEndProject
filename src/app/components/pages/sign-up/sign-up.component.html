@@ -1,0 +1,187 @@
+<div class="sign-in">
+
+    <div class="wrapper">		
+
+        <div class="sign-in-page">
+            <div class="signin-popup">
+                <div class="signin-pop">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="cmp-info">
+                                <div class="cm-logo">
+                                    <img src="assets/images/cm-logo.png" alt="">
+                                    <p>SocialCircle,  is a global platform and social networking where businesses and independent professionals connect and collaborate remotely</p>
+                                </div><!--cm-logo end-->	
+                                <img src="assets/images/cm-main-img.png" alt="">			
+                            </div><!--cmp-info end-->
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="login-sec">
+                                <ul class="sign-control">
+                                    <li data-tab="tab-1" #loginTab  (click)="showLoginForm(loginTab,registerTab)" class="current"><a title="" >Sign in</a></li>				
+                                    <li data-tab="tab-2" #registerTab (click)="showRegisterForm(loginTab,registerTab)"><a title="" >Sign up</a></li>				
+                                </ul>			
+                                <div class="sign_in_sec current" #login id="tab-1">
+                                    
+                                    <h3>Sign in</h3>
+                                    <form [formGroup]="logInForm" (ngSubmit)="submitForm()">
+                                        <div class="row">
+                                            <div class="col-lg-12 no-pdd">
+                                                <div class="sn-field">
+                                                    <input type="text" name="username" formControlName="email" placeholder="Email">
+                                                    <i class="fa fa-envelope"></i>
+                                                </div><!--sn-field end-->
+                                            </div>
+                                            <div class="col-lg-12 no-pdd">
+                                              <div class="alert alert-danger sn-field" *ngIf="logInForm.get('email').errors?.['required'] && logInForm.get('email').touched">
+                                                Email is required!
+                                              </div>
+                                              <div class="alert alert-danger sn-filed" *ngIf="logInForm.get('email').errors?.['email'] && logInForm.get('email').touched">
+                                                Email is not in right format!
+                                              </div>
+                                            </div>
+                                            <div class="col-lg-12 no-pdd">
+                                                <div class="sn-field">
+                                                    <input type="password" name="password" formControlName="password" placeholder="Password">
+                                                    <i class="la la-lock"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 no-pdd">
+                                                <div class="alert alert-danger sn-field" *ngIf="logInForm.get('password').errors?.['required'] && logInForm.get('password').touched">
+                                                  Password is required!
+                                                </div>
+                                                <div class="alert alert-danger sn-filed" *ngIf="logInForm.get('password').errors?.['pattern'] && logInForm.get('password').touched">
+                                                  Password is not in right format!
+                                                  You need to have one small, one big letter, number, and special character at least 8 character long!
+                                                </div>
+                                              </div>
+                                              <div class="col-lg-12 no-pdd" *ngIf="!loginError">
+                                                <div class="alert alert-danger sn-field">
+                                                  Wrong email or password!
+                                                </div>
+                                              </div>
+                                              
+                                    
+                                            <div class="col-lg-12 no-pdd">
+                                                <button type="submit" [disabled]="!logInForm.valid" value="submit">Sign in</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    
+                                </div>
+                                
+                                <!--sign_in_sec end-->
+                                <div class="sign_in_sec" #register id="tab-2">
+                                    <h3>Sign up</h3>
+                                    <div class="dff-tab current" id="tab-3">
+                                        <form [formGroup]="registerForm" (ngSubmit)="submitRegister()">
+                                            <div class="row">
+                                                <div class="col-lg-12 no-pdd">
+                                                    <div class="sn-field">
+                                                        <input type="text" name="name" formControlName="firstName" placeholder="First Name">
+                                                        <i class="la la-user"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 no-pdd">
+                                                    
+                                                    <div class="alert alert-danger sn-field" *ngIf="registerForm.get('firstName').errors?.['required'] && registerForm.get('firstName').touched">
+                                                        FirstName is required!
+                                                    </div>
+                                                    <div class="alert alert-danger sn-filed" *ngIf="registerForm.get('firstName').hasError('minlength') && registerForm.get('firstName').touched">
+                                                        FirstName cant must be long at least 3 characters!
+                                                    </div>
+                                                    <div class="alert alert-danger sn-filed" *ngIf="registerForm.get('firstName').hasError('maxlength') && registerForm.get('firstName').touched">
+                                                        FirstName cant be longer that 20 characters!
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 no-pdd">
+                                                    <div class="sn-field">
+                                                        <input type="text" name="name" formControlName="lastName" placeholder="Last Name">
+                                                        <i class="la la-user"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 no-pdd">
+                                                    
+                                                    <div class="alert alert-danger sn-field" *ngIf="registerForm.get('lastName').errors?.['required'] && registerForm.get('lastName').touched">
+                                                        LastName is required!
+                                                    </div>
+                                                    <div class="alert alert-danger sn-filed" *ngIf="registerForm.get('lastName').hasError('minlength') && registerForm.get('lastName').touched">
+                                                        LastName cant must be long at least 3 characters!
+                                                    </div>
+                                                    <div class="alert alert-danger sn-filed" *ngIf="registerForm.get('lastName').hasError('maxlength') && registerForm.get('lastName').touched">
+                                                        LastName cant be longer that 20 characters!
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 no-pdd">
+                                                    <div class="sn-field">
+                                                        <input type="text" name="name" formControlName="email" placeholder="Email">
+                                                        <i class="fa fa-envelope"></i>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-lg-12 no-pdd">
+                                                    <div class="alert alert-danger sn-field" *ngIf="registerForm.get('email').errors?.['required'] && registerForm.get('email').touched">
+                                                      Email is required!
+                                                    </div>
+                                                    <div class="alert alert-danger sn-filed" *ngIf="registerForm.get('email').errors?.['email'] && registerForm.get('email').touched">
+                                                      Email is not in right format!
+                                                    </div>
+                                                  </div>
+                                                <div class="col-lg-12 no-pdd">
+                                                    <div class="sn-field">
+                                                        <input type="text" (click)="d.toggle()" [minDate]="{year: 1940, month: 1, day: 1}"
+                                                     formControlName="date" class="un-set" ngbDatepicker #d="ngbDatepicker"/>
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 no-pdd">
+                                                    
+                                                    <div class="alert alert-danger sn-field" *ngIf="registerForm.get('date').errors?.['required'] && registerForm.get('date').touched">
+                                                        DateTime is required!
+                                                    </div>
+                                                    </div>
+                                                <div class="col-lg-12 no-pdd">
+                                                    <div class="sn-field">
+                                                        <input type="password" name="password" formControlName="password" placeholder="Password">
+                                                        <i class="la la-lock"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 no-pdd">
+                                                    <div class="alert alert-danger sn-field" *ngIf="registerForm.get('password').errors?.['required'] && registerForm.get('password').touched">
+                                                      Password is required!
+                                                    </div>
+                                                    <div class="alert alert-danger sn-filed" *ngIf="registerForm.get('password').errors?.['pattern'] && registerForm.get('password').touched">
+                                                      Password is not in right format!
+                                                      You need to have one small, one big letter, number, and special character at least 8 character long!
+                                                    </div>
+                                                  </div>
+                                                  
+                                                <div *ngIf="registracionSuccess" class="col-lg-12 no-pdd">
+                                                    <div class="alert alert-success sn-field">
+                                                      Registracion Successs
+                                                    </div>
+                                                  </div>
+                                                <div class="col-lg-12 no-pdd">
+                                                    <button type="submit" value="submit">Get Started</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div><!--dff-tab end-->
+                                    
+                                </div>		
+                            </div><!--login-sec end-->
+                        </div>
+                    </div>		
+                </div><!--signin-pop end-->
+            </div><!--signin-popup end-->
+            <div class="footy-sec">
+                <div class="container">
+                    
+                    <p><img src="assets/images/copy-icon.png" alt="">Copyright 2019</p>
+                </div>
+            </div><!--footy-sec end-->
+        </div><!--sign-in-page end-->
+    
+    
+    </div>
+</div>

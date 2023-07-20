@@ -1,0 +1,45 @@
+<li>
+    <div class="comment-list" #commentSec>
+        <div class="bg-img">
+            <img src="images/resources/bg-img1.png" alt="">
+        </div>
+        
+        <div class="comment usy-dt">
+            <h3>{{comment.userFirstAndLast}}</h3>
+            <span><img style="height: 50px; width: 50px;" src="{{comment.userImagesPaths[0]|imagePipe}}" alt="">{{comment.createdAt |date}}</span>
+            <p>{{comment.content}}</p>
+            <a (click)="replay()" title="" class="active mr-5"><i class="fa fa-reply-all"></i>Reply</a>
+            <a (click)="likeAComment(comment.id)" class="d-flex"><i class="fa fa-heart"></i> Like            <p #likeContainer>{{comment.likesCounter}}</p></a>
+
+        </div>
+       
+    </div><!--comment-list end-->
+    <ng-container *ngIf="showReComment">
+        <div >
+            <div>
+                <form [formGroup]="postAComment" (ngSubmit)="postComment(comment)">
+                    <input type="text" class="form-control" formControlName="commentContent" placeholder="Post a comment">
+                    <button class="btn btn-orange" type="submit">Send</button>
+                </form>
+            </div>
+        </div><!--post-comment end-->
+        <div class="alert alert-danger sn-field" *ngIf="postAComment.get('commentContent').errors?.['required']
+         && postAComment.get('commentContent').touched">
+            Comment is required!
+        </div>
+        <div class="alert alert-danger sn-filed" *ngIf="postAComment.get('commentContent').hasError('minlength') && postAComment.get('commentContent').touched">
+            Comment cant must be long at least 3 characters!
+            </div>
+            <div class="alert alert-danger sn-filed" *ngIf="postAComment.get('commentContent').hasError('maxlength') && postAComment.get('commentContent').touched">
+                Comment cant be longer that 500 characters!
+            </div>
+    </ng-container>
+    <ng-container *ngIf="comment.comments!=[]">
+        <ul>
+            <ng-container *ngFor="let c of comment.comments">
+                <app-comment [postId]="postId" [comment]="c"></app-comment>
+            </ng-container>
+        </ul>
+    </ng-container>
+    
+</li>

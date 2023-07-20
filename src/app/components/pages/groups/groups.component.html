@@ -1,0 +1,42 @@
+
+<ng-container *ngIf="groups.items.length>0;else neIt">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngFor="let group of groups.items">
+                <div class="company_profile_info">
+                    <div class="company-up-info">
+                        <img src="images/resources/pf-icon1.png" alt="">
+                        <h3>{{group.name}}</h3>
+                        <p>{{group.description}}</p>
+                    </div>
+                    <a routerLink="/index/single-group/{{group.id}}" title="" class="view-more-pro">View Group</a>
+                </div><!--company_profile_info end-->
+            </div>
+        </div>
+        <div class="row">
+            <ngb-pagination [collectionSize]="totalCount" (pageChange)="onPageChange($event)" [pageSize]="perPage" [(page)]="page" [maxSize]="5"
+            [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+        </div>
+    </div>
+</ng-container>
+<ng-template #neIt>
+    <ng-container *ngIf="isActive;else noItems">
+        <div class="process-comm">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #noItems>
+        <div class="container">
+            <div class="row">
+                <h3>No items for that criteria!</h3>
+            </div>
+        </div>
+        
+    </ng-template>
+</ng-template>
+
